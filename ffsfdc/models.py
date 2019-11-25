@@ -309,7 +309,7 @@ class Donation(models.Model):
     pledged_at = models.DateTimeField(db_column='pledged_at__c', blank=True, null=True)
     donation_amount = models.FloatField(db_column='donation_amount__c', blank=True, null=True)
     amount_pledged = models.FloatField(db_column='amount_pledged__c', blank=True, null=True)
-    currencyisocode = models.CharField(db_column="currentyisocode", max_length=3, blank=True, null=True)
+    currencyisocode = models.CharField(db_column="currencyisocode", max_length=3, blank=True, null=True)
 
     hc_lastop = models.CharField(db_column='_hc_lastop', max_length=32, blank=True, null=True)
     hc_err = models.TextField(db_column='_hc_err', blank=True, null=True)
