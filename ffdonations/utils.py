@@ -24,7 +24,6 @@ from .models import *
 #         maxDonation=Max('amount'),
 #     )
 
-@memoize(timeout=120)
 def event_name_maker(year=timezone.now().year):
     return 'Extra Life %d' % year
 
