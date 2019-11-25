@@ -127,14 +127,6 @@ USE_TZ = True
 
 # Change 'default' database configuration with $DATABASE_URL.
 DATABASES['default'].update(dj_database_url.config(conn_max_age=500, ssl_require=True))
-if 'OPTIONS' not in DATABASES['default']:
-    DATABASES['default']['OPTIONS'] = {}
-
-if DATABASES['default']['ENGINE'] != 'django.db.backends.sqlite3':
-    DATABASES['default']['OPTIONS']['options'] = '-c search_path=%s,%s' % (
-        os.environ.get('DATABASE_SCHEMA', 'public'),
-        os.environ.get('HC_SCHEMA', 'org'),
-    )
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
@@ -432,9 +424,9 @@ LOGGING = {
 # Activate Django-Heroku - Very last
 django_heroku.settings(locals())
 
+# Needs to be after dj_hk.settings
 if 'OPTIONS' not in DATABASES['default']:
     DATABASES['default']['OPTIONS'] = {}
-
 if DATABASES['default']['ENGINE'] != 'django.db.backends.sqlite3':
     DATABASES['default']['OPTIONS']['options'] = '-c search_path=%s,%s' % (
         os.environ.get('DATABASE_SCHEMA', 'public'),
