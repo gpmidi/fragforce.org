@@ -431,3 +431,12 @@ LOGGING = {
 
 # Activate Django-Heroku - Very last
 django_heroku.settings(locals())
+
+if 'OPTIONS' not in DATABASES['default']:
+    DATABASES['default']['OPTIONS'] = {}
+
+if DATABASES['default']['ENGINE'] != 'django.db.backends.sqlite3':
+    DATABASES['default']['OPTIONS']['options'] = '-c search_path=%s,%s' % (
+        os.environ.get('DATABASE_SCHEMA', 'public'),
+        os.environ.get('HC_SCHEMA', 'org'),
+    )
