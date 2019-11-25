@@ -131,6 +131,9 @@ USE_TZ = True
 
 # Change 'default' database configuration with $DATABASE_URL.
 DATABASES['default'].update(dj_database_url.config(conn_max_age=500, ssl_require=True))
+if 'OPTIONS' not in DATABASES['default']:
+    DATABASES['default']['OPTIONS'] = {}
+
 DATABASES['default']['OPTIONS']['options'] = '-c search_path=%s,%s' % (
     os.environ.get('DATABASE_SCHEMA', 'public'),
     os.environ.get('HC_SCHEMA', 'org'),
