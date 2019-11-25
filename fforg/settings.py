@@ -99,10 +99,6 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     },
-    'hc': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db-hc.sqlite3'),
-    },
 }
 DATABASE_ROUTERS = ["fforg.router.HCRouter", ]
 AUTH_PASSWORD_VALIDATORS = [
@@ -134,10 +130,11 @@ DATABASES['default'].update(dj_database_url.config(conn_max_age=500, ssl_require
 if 'OPTIONS' not in DATABASES['default']:
     DATABASES['default']['OPTIONS'] = {}
 
-DATABASES['default']['OPTIONS']['options'] = '-c search_path=%s,%s' % (
-    os.environ.get('DATABASE_SCHEMA', 'public'),
-    os.environ.get('HC_SCHEMA', 'org'),
-)
+if DATABASES['default']['ENGINE'] != 'django.db.backends.sqlite3':
+    DATABASES['default']['OPTIONS']['options'] = '-c search_path=%s,%s' % (
+        os.environ.get('DATABASE_SCHEMA', 'public'),
+        os.environ.get('HC_SCHEMA', 'org'),
+    )
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
