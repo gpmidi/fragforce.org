@@ -278,13 +278,18 @@ class EventParticipant(models.Model):
 class Donation(models.Model):
     """ Universal Donation Tracking
     """
+    CHARITY = (
+        ("Child's Play", "Child's Play"),
+        ("Extra-Life", "Extra-Life"),
+        ("Other", "Other"),
+    )
     sync_id_c = models.CharField(db_column='sync_id__c', unique=True, max_length=255, blank=True, null=True)
     name = models.CharField(max_length=80, blank=True, null=True)
     sfid = models.CharField(unique=True, max_length=18, blank=True, null=True)
 
     donation_record = models.CharField(db_column='donation_record__c', max_length=255, blank=True, null=True)
     donated_at = models.DateTimeField(db_column='donated_at__c', blank=True, null=True)
-    charity = models.CharField(db_column='charity__c', max_length=255, blank=True, null=True)
+    charity = models.CharField(db_column='charity__c', max_length=255, blank=True, null=True, choices=CHARITY)
     contact = models.CharField(db_column='contact__c', max_length=18, blank=True, null=True)
     lastmodified = models.DateTimeField(blank=True, null=True)
     ownerid = models.CharField(max_length=18, blank=True, null=True)
