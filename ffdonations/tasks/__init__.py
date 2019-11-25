@@ -4,3 +4,4 @@ from .teams import *
 from .participants import *
 from .donations import *
 from .tiltify import *
+from .univ import *

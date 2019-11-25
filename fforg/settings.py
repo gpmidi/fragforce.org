@@ -289,6 +289,7 @@ REQUEST_MIN_TIME_HOST = timedelta(seconds=int(os.environ.get('REQUEST_MIN_TIME_H
 
 # How often to check for updates
 TIL_TEAMS_UPDATE_FREQUENCY_CHECK = timedelta(minutes=int(os.environ.get('TIL_TEAMS_UPDATE_FREQUENCY_CHECK', 10)))
+UNIV_UPDATE_FREQUENCY = timedelta(seconds=int(os.environ.get('UNIV_UPDATE_FREQUENCY', 5)))
 
 # How long to wait in seconds after getting a parent before fetching any children
 TF_UPDATE_WAIT = timedelta(seconds=int(os.environ.get('TF_UPDATE_WAIT', 120)))
@@ -374,6 +375,14 @@ CELERY_BEAT_SCHEDULE = {
     'til-update-all-teams': {
         'task': 'ffdonations.tasks.tiltify.teams.update_teams',
         'schedule': TIL_TEAMS_UPDATE_FREQUENCY_CHECK,
+    },
+    'univ-load-el': {
+        'task': 'ffdonations.tasks.univ.loaders.load_extralife',
+        'schedule': UNIV_UPDATE_FREQUENCY,
+    },
+    'univ-load-cp': {
+        'task': 'ffdonations.tasks.univ.loaders.load_childsplay',
+        'schedule': UNIV_UPDATE_FREQUENCY,
     },
 }
 

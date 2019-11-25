@@ -4,6 +4,7 @@ import uuid
 from django.contrib.postgres.fields import JSONField
 from django.db import models
 from django.db.models import Q
+from ffsfdc.models import Donation
 
 
 ## Extra-Life
@@ -84,6 +85,8 @@ class DonationModel(models.Model):
     participant = models.ForeignKey(ParticipantModel, null=True, default=None, verbose_name="Participant",
                                     on_delete=models.DO_NOTHING)
     team = models.ForeignKey(TeamModel, null=True, default=None, verbose_name="Team", on_delete=models.DO_NOTHING)
+    univ = models.ForeignKey(Donation, null=True, default=None, verbose_name="Universal Donation",
+                             on_delete=models.DO_NOTHING)
 
     # Extra
     raw = JSONField(verbose_name="Raw Data", null=True, default=dict)
@@ -374,8 +377,12 @@ class DonationTiltifyModel(models.Model):
     name = models.CharField(max_length=8192, null=True, verbose_name="Name")
     comment = models.CharField(max_length=1024 * 1024, null=True, verbose_name="Comment")
     completedAt = models.DateTimeField(null=True, verbose_name="Completed At")
+
+    # Related
     reward = models.ForeignKey(RewardTiltifyModel, verbose_name="Reward", null=True, on_delete=models.DO_NOTHING)
     campaign = models.ForeignKey(CampaignTiltifyModel, verbose_name="Campaign", null=True, on_delete=models.CASCADE)
+    univ = models.ForeignKey(Donation, null=True, default=None, verbose_name="Universal Donation",
+                             on_delete=models.DO_NOTHING)
 
     # Extra
     raw = JSONField(verbose_name="Raw Data", null=True, default=dict)
