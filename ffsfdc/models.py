@@ -282,10 +282,10 @@ class Donation(models.Model):
     name = models.CharField(max_length=80, blank=True, null=True)
     sfid = models.CharField(unique=True, max_length=18, blank=True, null=True)
 
-    donation_record_c = models.CharField(db_column='donation_record__c', max_length=255, blank=True, null=True)
-    donated_at_c = models.DateTimeField(db_column='donated_at__c', blank=True, null=True)
-    charity_c = models.CharField(db_column='charity__c', max_length=255, blank=True, null=True)
-    contact_c = models.CharField(db_column='contact__c', max_length=18, blank=True, null=True)
+    donation_record = models.CharField(db_column='donation_record__c', max_length=255, blank=True, null=True)
+    donated_at = models.DateTimeField(db_column='donated_at__c', blank=True, null=True)
+    charity = models.CharField(db_column='charity__c', max_length=255, blank=True, null=True)
+    contact = models.CharField(db_column='contact__c', max_length=18, blank=True, null=True)
     lastmodifieddate = models.DateTimeField(blank=True, null=True)
     ownerid = models.CharField(max_length=18, blank=True, null=True)
     mayedit = models.BooleanField(blank=True, null=True)
@@ -296,13 +296,13 @@ class Donation(models.Model):
     islocked = models.BooleanField(blank=True, null=True)
     createddate = models.DateTimeField(blank=True, null=True)
     createdbyid = models.CharField(max_length=18, blank=True, null=True)
-    pledged_at_c = models.DateTimeField(db_column='pledged_at__c', blank=True, null=True)
-    donation_amount_c = models.FloatField(db_column='donation_amount__c', blank=True, null=True)
-    amount_pledged_c = models.FloatField(db_column='amount_pledged__c', blank=True, null=True)
-    currencyisocode = models.CharField(max_length=3, blank=True, null=True)
+    pledged_at = models.DateTimeField(db_column='pledged_at__c', blank=True, null=True)
+    donation_amount = models.FloatField(db_column='donation_amount__c', blank=True, null=True)
+    amount_pledged = models.FloatField(db_column='amount_pledged__c', blank=True, null=True)
+    jcurrencyisocode = models.CharField(max_length=3, blank=True, null=True)
 
-    field_hc_lastop = models.CharField(db_column='_hc_lastop', max_length=32, blank=True, null=True)
-    field_hc_err = models.TextField(db_column='_hc_err', blank=True, null=True)
+    hc_lastop = models.CharField(db_column='_hc_lastop', max_length=32, blank=True, null=True)
+    hc_err = models.TextField(db_column='_hc_err', blank=True, null=True)
 
     class Meta:
         managed = False
