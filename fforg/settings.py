@@ -133,7 +133,14 @@ USE_TZ = True
 DATABASES['default'].update(dj_database_url.config(conn_max_age=500, ssl_require=True))
 DATABASES['hc'].update(dj_database_url.config(conn_max_age=500, ssl_require=True, env="HC_RO_URL"))
 try:
-    DATABASES['hc']['OPTIONS']['options'] = '-c search_path=%s' % os.environ.get('HC_RO_SCHEMA', 'org')
+    DATABASES['default']['OPTIONS']['options'] = '-c search_path=%s,%s' % (
+        os.environ.get('DATABASE_SCHEMA', 'public'),
+        os.environ.get('HC_RO_SCHEMA', 'org'),
+    )
+    DATABASES['hc']['OPTIONS']['options'] = '-c search_path=%s,%s' % (
+        os.environ.get('HC_RO_SCHEMA', 'org'),
+        os.environ.get('DATABASE_SCHEMA', 'public'),
+    )
 except KeyError as e:
     pass
 
