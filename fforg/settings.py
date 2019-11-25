@@ -131,18 +131,10 @@ USE_TZ = True
 
 # Change 'default' database configuration with $DATABASE_URL.
 DATABASES['default'].update(dj_database_url.config(conn_max_age=500, ssl_require=True))
-DATABASES['hc'].update(dj_database_url.config(conn_max_age=500, ssl_require=True, env="HC_RO_URL"))
-try:
-    DATABASES['default']['OPTIONS']['options'] = '-c search_path=%s,%s' % (
-        os.environ.get('DATABASE_SCHEMA', 'public'),
-        os.environ.get('HC_RO_SCHEMA', 'org'),
-    )
-    DATABASES['hc']['OPTIONS']['options'] = '-c search_path=%s,%s' % (
-        os.environ.get('HC_RO_SCHEMA', 'org'),
-        os.environ.get('DATABASE_SCHEMA', 'public'),
-    )
-except KeyError as e:
-    pass
+DATABASES['default']['OPTIONS']['options'] = '-c search_path=%s,%s' % (
+    os.environ.get('DATABASE_SCHEMA', 'public'),
+    os.environ.get('HC_SCHEMA', 'org'),
+)
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
