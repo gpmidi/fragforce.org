@@ -5,6 +5,7 @@ def get_tiltify(*args, **kwargs):
     """ Easy way to get a Tiltify obj """
     from tiltify2 import Tiltify3
     return Tiltify3(
+        *args,
         api_key=settings.TILTIFY_TOKEN,
         timeout=settings.TILTIFY_TIMEOUT,
         extra_headers={
