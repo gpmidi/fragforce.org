@@ -85,8 +85,8 @@ class DonationModel(models.Model):
     participant = models.ForeignKey(ParticipantModel, null=True, default=None, verbose_name="Participant",
                                     on_delete=models.DO_NOTHING)
     team = models.ForeignKey(TeamModel, null=True, default=None, verbose_name="Team", on_delete=models.DO_NOTHING)
-    univ = models.ForeignKey(Donation, null=True, default=None, verbose_name="Universal Donation",
-                             on_delete=models.DO_NOTHING)
+    univ = models.IntegerField(null=True, default=None,
+                               verbose_name="Universal Donation PK")  # Can't use FK as it's in a different db or schema
 
     # Extra
     raw = JSONField(verbose_name="Raw Data", null=True, default=dict)
@@ -381,8 +381,8 @@ class DonationTiltifyModel(models.Model):
     # Related
     reward = models.ForeignKey(RewardTiltifyModel, verbose_name="Reward", null=True, on_delete=models.DO_NOTHING)
     campaign = models.ForeignKey(CampaignTiltifyModel, verbose_name="Campaign", null=True, on_delete=models.CASCADE)
-    univ = models.ForeignKey(Donation, null=True, default=None, verbose_name="Universal Donation",
-                             on_delete=models.DO_NOTHING)
+    univ = models.IntegerField(null=True, default=None,
+                               verbose_name="Universal Donation PK")  # Can't use FK as it's in a different db or schema
 
     # Extra
     raw = JSONField(verbose_name="Raw Data", null=True, default=dict)

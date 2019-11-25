@@ -22,7 +22,7 @@ def load_extralife(self):
             currencyisocode=Donation.CURR_USD,
         )
         ndonation.save()
-        missing.univ = ndonation
+        missing.univ = ndonation.pk
         missing.save()
 
 
