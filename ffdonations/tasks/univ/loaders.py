@@ -19,7 +19,7 @@ def load_extralife(self):
             charity=Donation.CHARITY_EL,
             donated_at=missing.created,
             donation_amount=missing.amount,
-            currencyisocode=Donation.CURR_USD,
+            # currencyisocode=Donation.CURR_USD,
         )
         ndonation.save()
         missing.univ = ndonation.pk
