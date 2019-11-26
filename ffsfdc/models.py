@@ -286,7 +286,7 @@ class Donation(models.Model):
         (CHARITY_CP, CHARITY_CP),
         (CHARITY_OTH, CHARITY_OTH),
     )
-    CURR_USD = 840
+    CURR_USD = "USD"
 
     sync_id_c = models.CharField(db_column='sync_id__c', unique=True, max_length=255, blank=True, null=True)
     name = models.CharField(max_length=80, blank=True, null=True)
