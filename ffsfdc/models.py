@@ -138,15 +138,12 @@ class SiteAccount(models.Model):
 
     def has_events(self):
         """ Return True if this account has upcoming events """
-        import datetime
         return Event.objects.filter(event_start_date__gte=timezone.now(), site=self).count() > 0
 
     def upcoming(self):
-        import datetime
         return self.events.filter(event_start_date__gte=timezone.now()).order_by('event_start_date').all()
 
     def past(self):
-        import datetime
         return self.events.filter(event_start_date__lt=timezone.now()).order_by('-event_start_date').all()
 
 
@@ -275,27 +272,10 @@ class EventParticipant(models.Model):
         db_table = 'event_participant__c'
 
 
-class Donation(models.Model):
-    """ Universal Donation Tracking
-    """
-    CHARITY_EL = "Extra-Life"
-    CHARITY_CP = "Child's Play"
-    CHARITY_OTH = "Other"
-    CHARITY = (
-        (CHARITY_EL, CHARITY_EL),
-        (CHARITY_CP, CHARITY_CP),
-        (CHARITY_OTH, CHARITY_OTH),
-    )
-    CURR_USD = "USD"
-
+class BaseSFDCModel(models.Model):
     sync_id_c = models.CharField(db_column='sync_id__c', unique=True, max_length=255, blank=True, null=True)
     name = models.CharField(max_length=80, blank=True, null=True)
     sfid = models.CharField(unique=True, max_length=18, blank=True, null=True)
-
-    donation_record = models.CharField(db_column='donation_record__c', max_length=255, blank=True, null=True)
-    donated_at = models.DateTimeField(db_column='donated_at__c', blank=True, null=True)
-    charity = models.CharField(db_column='charity__c', max_length=255, blank=True, null=True, choices=CHARITY)
-    contact = models.CharField(db_column='contact__c', max_length=18, blank=True, null=True)
     lastmodified = models.DateTimeField(db_column="lastmodifieddate", blank=True, null=True)
     ownerid = models.CharField(max_length=18, blank=True, null=True)
     mayedit = models.BooleanField(blank=True, null=True)
@@ -306,13 +286,38 @@ class Donation(models.Model):
     islocked = models.BooleanField(blank=True, null=True)
     created = models.DateTimeField(db_column="createddate", blank=True, null=True)
     createdby = models.CharField(db_column="createdbyid", max_length=18, blank=True, null=True)
-    pledged_at = models.DateTimeField(db_column='pledged_at__c', blank=True, null=True)
-    donation_amount = models.FloatField(db_column='donation_amount__c', blank=True, null=True)
-    amount_pledged = models.FloatField(db_column='amount_pledged__c', blank=True, null=True)
     currencyisocode = models.CharField(db_column="currencyisocode", max_length=3, blank=True, null=True)
 
     hc_lastop = models.CharField(db_column='_hc_lastop', max_length=32, blank=True, null=True)
     hc_err = models.TextField(db_column='_hc_err', blank=True, null=True)
+
+    class Meta:
+        abstract = True
+
+
+class Charity(BaseSFDCModel):
+    """ A charity we raise money for """
+    title = models.CharField(max_length=255, blank=False, null=False)
+    description = models.TextField(blank=True, null=False, default="")
+    contact = models.CharField(db_column='contact__c', max_length=18, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'donation__c'
+
+
+class Donation(BaseSFDCModel):
+    """ Universal Donation Tracking """
+    charity = models.CharField(Charity,
+                               related_name='sfid', db_column='charity__c', max_length=18, blank=False, null=False)
+    contact = models.ForeignKey(Contact,
+                                related_name='sfid', db_column='contact__c', max_length=18, blank=True, null=True)
+
+    donated_at = models.DateTimeField(db_column='donated_at__c', blank=True, null=True)
+    donation_amount = models.FloatField(db_column='donation_amount__c', blank=True, null=True)
+
+    pledged_at = models.DateTimeField(db_column='pledged_at__c', blank=True, null=True)
+    pledged_amount = models.FloatField(db_column='pledged_amount__c', blank=True, null=True)
 
     class Meta:
         managed = False
