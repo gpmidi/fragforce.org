@@ -273,9 +273,13 @@ class EventParticipant(models.Model):
 
 
 class BaseSFDCModel(models.Model):
+    CUR_USD = "USD"
+
+    # Start out blank - get filled in by HC
     sync_id_c = models.CharField(db_column='sync_id__c', unique=True, max_length=255, blank=True, null=True)
     name = models.CharField(max_length=80, blank=True, null=True)
     sfid = models.CharField(unique=True, max_length=18, blank=True, null=True)
+
     lastmodified = models.DateTimeField(db_column="lastmodifieddate", blank=True, null=True)
     ownerid = models.CharField(max_length=18, blank=True, null=True)
     mayedit = models.BooleanField(blank=True, null=True)
@@ -286,8 +290,10 @@ class BaseSFDCModel(models.Model):
     islocked = models.BooleanField(blank=True, null=True)
     created = models.DateTimeField(db_column="createddate", blank=True, null=True)
     createdby = models.CharField(db_column="createdbyid", max_length=18, blank=True, null=True)
-    currencyisocode = models.CharField(db_column="currencyisocode", max_length=3, blank=True, null=True)
+    currencyisocode = models.CharField(db_column="currencyisocode", max_length=3, blank=True, null=True,
+                                       default=CUR_USD)
 
+    # Start out blank - get filled in by HC
     hc_lastop = models.CharField(db_column='_hc_lastop', max_length=32, blank=True, null=True)
     hc_err = models.TextField(db_column='_hc_err', blank=True, null=True)
 
