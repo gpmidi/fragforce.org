@@ -4,6 +4,7 @@
   "website": "https://www.fragforce.org",
   "repository": "https://github.com/fragforce/fragforce.org",
   "env": {
+    "STREAM_URL": "https://calendar.google.com/calendar/u/0/embed?showTitle=0&mode=AGENDA&height=917&wkst=1&src=salesforce.com_80r4vai6t8j4ap7ts0n3h0hglk@group.calendar.google.com&ctz=America/New_York",
     "HC_RO_SCHEMA": "org",
     "SINGAPORE_DONATIONS": "5000",
     "OTHER_DONATIONS": "1000",
