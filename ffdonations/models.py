@@ -6,7 +6,7 @@ from django.db import models
 from django.db.models import Q
 
 
-## Extra-Life
+# Extra-Life
 class EventModel(models.Model):
     # Ours
     guid = models.UUIDField(unique=True, default=uuid.uuid4, editable=False, verbose_name="GUID", null=False)
@@ -95,7 +95,7 @@ class DonationModel(models.Model):
         return Q(team__tracked=True) | Q(participant__tracked=True)
 
 
-## Tiltify
+# Tiltify
 class MediaTiltifyModel(models.Model):
     # Ours
     guid = models.UUIDField(unique=True, default=uuid.uuid4, editable=False, verbose_name="GUID", null=False)
